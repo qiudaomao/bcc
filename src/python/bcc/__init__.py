@@ -44,7 +44,7 @@ def _get_num_open_probes():
     global _num_open_probes
     return _num_open_probes
 
-TRACEFS = "/sys/kernel/debug/tracing"
+TRACEFS = "/sys/kernel/tracing"
 
 # Debug flags
 
@@ -689,7 +689,7 @@ class BPF(object):
 
     @staticmethod
     def get_kprobe_functions(event_re):
-        blacklist_file = "%s/../kprobes/blacklist" % TRACEFS
+        blacklist_file = "/sys/kernel/debug/kprobes/blacklist"
         try:
             with open(blacklist_file, "rb") as blacklist_f:
                 blacklist = set([line.rstrip().split()[1] for line in blacklist_f])
@@ -1000,7 +1000,7 @@ class BPF(object):
         provided regular expression.
 
         To obtain a list of kernel tracepoints, use the tplist tool or cat the
-        file /sys/kernel/debug/tracing/available_events.
+        file /sys/kernel/tracing/available_events.
 
         Examples:
             BPF(text).attach_tracepoint(tp="sched:sched_switch", fn_name="on_switch")
